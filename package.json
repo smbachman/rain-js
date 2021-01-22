@@ -1,0 +1,12 @@
+{
+  "name": "Rain",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node tests/canvas.test.js",
+    "projectile": "node run-projectile.js"
+  },
+  "dependencies": {
+    "jimp": "latest",
+    "zora": "latest"
+  }
+}
