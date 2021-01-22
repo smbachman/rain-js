@@ -1,27 +1,30 @@
 const Tuples = require('./tuples.js');
 
-function color(red, green, blue) {
-  return { red, green, blue };
+function defineColorProperties(c) {
+  Object.defineProperties(c, {
+    red: { get: function() { return this[0]; } },
+    green: { get: function() { return this[1]; } },
+    blue: { get: function() { return this[2]; } },
+    alpha: { get: function() { return this[3]; } }
+  });
 }
 
-function toTuple(c) {
-  return Tuples.tuple(c.red, c.green, c.blue, 0);
-}
-
-function toColor(t) {
-  return color(t.x, t.y, t.z);
+function color(red, green, blue, alpha) {
+  let c = [ red, green, blue, (!alpha || alpha > 1) ? 1 : alpha ];
+  defineColorProperties(c);
+  return c;
 }
 
 function add(a, b) {
-  return toColor(Tuples.add(toTuple(a), toTuple(b)));
+  return color(...Tuples.add(a, b));
 }
 
 function subtract(a, b) {
-  return toColor(Tuples.subtract(toTuple(a), toTuple(b)));
+  return color(...Tuples.subtract(a, b));
 }
 
 function multiply(c, s) {
-  return toColor(Tuples.multiply(toTuple(c), s));
+  return color(...Tuples.multiply(c, s));
 }
 
 function hadamardProduct(a, b) {
@@ -29,5 +32,5 @@ function hadamardProduct(a, b) {
 }
 
 module.exports = {
-  color, toTuple, toColor, add, subtract, multiply, hadamardProduct
+  color, add, subtract, multiply, hadamardProduct
 };

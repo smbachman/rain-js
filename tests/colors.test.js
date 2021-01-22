@@ -13,8 +13,8 @@ test('colors', function (t) {
   
   t.test('Adding colors', function () {
     const a = color(0.9, 0.6, 0.75);
-    const b = color(0.7, 0.1, 0.25);
-    t.equal(add(a, b), color(1.6, 0.7, 1.0));
+    const b = color(0.7, 0.1, 0.25);    
+    t.equal(add(a, b), color(1.6, 0.7, 1.0));    
   });
   
   t.test('Subtracting colors', function () {

@@ -1,15 +1,15 @@
 const {test} = require('zora');
-const {equal, multiply} = require('../src/matrices.js');
+const {matrix, equal, multiply} = require('../src/matrices.js');
 
 test('matrices', function (t) {
   
   t.test('Constructing and inspecting a 4x4 matrix', function() {
-    let m = [
-        [1,2,3,4],
-        [5.5,6.5,7.5,8.5],
-        [9,10,11,12],
-        [13.5,14.5,15.5,16.5]
-      ];
+    let m = matrix(
+      1, 2, 3, 4,
+      5.5, 6.5, 7.5, 8.5,
+      9, 10, 11, 12,
+      13.5, 14.5, 15.5, 16.5
+    );
     t.equal(m[0][0], 1);
     t.equal(m[0][3], 4);
     t.equal(m[1][0], 5.5);
@@ -43,38 +43,38 @@ test('matrices', function (t) {
     t.equal(m[2][2], 1);
   });
   
-  t.test('matrix equalt.testy wt.testh identical matrices', function() {
-    let a = [
-      [1,2,3,4],
-      [5,6,7,8],
-      [9,8,7,6],
-      [5,4,3,2]
-    ];
+  t.test('matrix equality with identical matrices', function() {
+    let a = matrix(
+      1,2,3,4,
+      5,6,7,8,
+      9,8,7,6,
+      5,4,3,2
+    );
     
-    let b = [
-      [1,2,3,4],
-      [5,6,7,8],
-      [9,8,7,6],
-      [5,4,3,2]
-    ];
+    let b = matrix(
+      1,2,3,4,
+      5,6,7,8,
+      9,8,7,6,
+      5,4,3,2
+    );
     
     t.ok(equal(a,b));
   });
   
-  t.test('matrix equalt.testy wt.testh different matrices', function() {
-    let a = [
-      [1,2,3,4],
-      [5,6,7,8],
-      [9,8,7,6],
-      [5,4,3,2]
-    ];
+  t.test('matrix equality with different matrices', function() {
+    let a = matrix(
+      1,2,3,4,
+      5,6,7,8,
+      9,8,7,6,
+      5,4,3,2
+    );
     
-    let b = [
-      [0,2,3,4],
-      [5,6,7,8],
-      [9,8,7,6],
-      [5,4,3,2]
-    ];
+    let b = matrix(
+      0,2,3,4,
+      5,6,7,8,
+      9,8,7,6,
+      5,4,3,2
+    );
     
     t.notOk(equal(a,b));
   });
