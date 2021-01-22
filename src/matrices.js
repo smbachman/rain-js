@@ -1,13 +1,15 @@
 const {floatEqual} = require('./comparison.js');
 
-function matrix(...args) {
-  let m = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];  
+function matrix(width, height, ...args) {
+  let m = new Array(width);
 
-  for (let i = 0; i < args.length; i++)
-  {
-    let x = i % 4;
-    let y = Math.floor(i / 4);
-    m[y][x] = args[i];
+  let i = 0;
+
+  for (let x = 0; x < width; x++) {
+    m[x] = new Array(height);
+    for (let y = 0; y < height; y++) {
+      m[x][y] = args[i++] || 0;
+    }
   }
 
   return m;
@@ -26,7 +28,7 @@ function equal(a, b) {
 }
 
 function multiply(a, b) {
-  let m = matrix();
+  let m = matrix(4, 4);
   
   for (let x = 0; x < a.length; x++) {
     for (let y = 0; y < a[0].length; y++) {
