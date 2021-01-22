@@ -31,21 +31,30 @@ function clamp(value) {
   return (value < 0 ? 0 : (value > 1 ? 1 : value));
 }
 
+
+function jimpScan(c) {
+  return function(x, y, idx) {
+    let pixel = pixelAt(c, x, y);
+    this.bitmap.data[idx + 0] = clamp(pixel.red) * 255;
+    this.bitmap.data[idx + 1] = clamp(pixel.green) * 255;
+    this.bitmap.data[idx + 2] = clamp(pixel.blue) * 255;
+    this.bitmap.data[idx + 3] = 255; 
+  }
+}
+
 function canvasToImageData(c) {
   let data = new Array(c.width * c.height * 4);
   let i = 0;
+  let scan = jimpScan(c);
   
   for (let y = 0; y < c.height; y++) {
     for (let x = 0; x < c.width; x++) {
-      let pixel = pixelAt(c, x, y);
-      data[i++] = clamp(pixel.red) * 255;
-      data[i++] = clamp(pixel.green) * 255;
-      data[i++] = clamp(pixel.blue) * 255;
-      data[i++] = 255;
+      scan.call({bitmap: { data } }, x, y, i);
+      i += 4;
     }
   }
   
   return data;
 }
 
-module.exports = { canvas, writePixel, pixelAt, canvasToPpm, canvasToImageData };
+module.exports = { canvas, writePixel, pixelAt, canvasToPpm, canvasToImageData, jimpScan };

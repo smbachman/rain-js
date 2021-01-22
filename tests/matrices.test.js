@@ -1,48 +1,49 @@
-import {equal, multiply} from '../src/matrices.js';
+const {test} = require('zora');
+const {equal, multiply} = require('../src/matrices.js');
 
-describe('matrices', function () {
+test('matrices', function (t) {
   
-  it('Constructing and inspecting a 4x4 matrix', function() {
+  t.test('Constructing and inspecting a 4x4 matrix', function() {
     let m = [
         [1,2,3,4],
         [5.5,6.5,7.5,8.5],
         [9,10,11,12],
         [13.5,14.5,15.5,16.5]
       ];
-    chai.expect(m[0][0]).to.equal(1);
-    chai.expect(m[0][3]).to.equal(4);
-    chai.expect(m[1][0]).to.equal(5.5);
-    chai.expect(m[1][2]).to.equal(7.5);
-    chai.expect(m[2][2]).to.equal(11);
-    chai.expect(m[3][0]).to.equal(13.5);
-    chai.expect(m[3][2]).to.equal(15.5);
+    t.equal(m[0][0], 1);
+    t.equal(m[0][3], 4);
+    t.equal(m[1][0], 5.5);
+    t.equal(m[1][2], 7.5);
+    t.equal(m[2][2], 11);
+    t.equal(m[3][0], 13.5);
+    t.equal(m[3][2], 15.5);
   });
   
-  it('A 2x2 matrix ought to be representable', function() {
+  t.test('A 2x2 matrix ought to be representable', function() {
     let m = [
       [-3,5],
       [1,-2]
     ];
     
-    chai.expect(m[0][0]).to.equal(-3);
-    chai.expect(m[0][1]).to.equal(5);
-    chai.expect(m[1][0]).to.equal(1);
-    chai.expect(m[1][1]).to.equal(-2);
+    t.equal(m[0][0], -3);
+    t.equal(m[0][1], 5);
+    t.equal(m[1][0], 1);
+    t.equal(m[1][1], -2);
   });
   
-  it('A 3x3 matrix ought to be representable', function() {
+  t.test('A 3x3 matrix ought to be representable', function() {
     let m = [
       [-3, 5, 0],
       [1, -2, -7],
       [0, 1, 1]
     ];
     
-    chai.expect(m[0][0]).to.equal(-3);
-    chai.expect(m[1][1]).to.equal(-2);
-    chai.expect(m[2][2]).to.equal(1);
+    t.equal(m[0][0], -3);
+    t.equal(m[1][1], -2);
+    t.equal(m[2][2], 1);
   });
   
-  it('matrix equality with identical matrices', function() {
+  t.test('matrix equalt.testy wt.testh identical matrices', function() {
     let a = [
       [1,2,3,4],
       [5,6,7,8],
@@ -57,10 +58,10 @@ describe('matrices', function () {
       [5,4,3,2]
     ];
     
-    chai.expect(equal(a,b)).to.be.true;
+    t.ok(equal(a,b));
   });
   
-  it('matrix equality with different matrices', function() {
+  t.test('matrix equalt.testy wt.testh different matrices', function() {
     let a = [
       [1,2,3,4],
       [5,6,7,8],
@@ -75,7 +76,7 @@ describe('matrices', function () {
       [5,4,3,2]
     ];
     
-    chai.expect(equal(a,b)).to.be.false;
+    t.notOk(equal(a,b));
   });
   
 });

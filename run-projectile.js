@@ -1,7 +1,7 @@
 const {point, vector, normalize, multiply} = require("./src/tuples.js");
 const {projectile, environment, tick} = require("./src/projectile.js");
 const {color} = require("./src/colors.js");
-const {canvas, writePixel, pixelAt, canvasToImageData} = require("./src/canvas.js");
+const {canvas, writePixel, pixelAt, jimpScan} = require("./src/canvas.js");
 const Jimp = require('jimp');
 
 let p = projectile(point(0,1,0), multiply(normalize(vector(1,1.8,0)), 11.25));
@@ -22,7 +22,9 @@ while (p.position.y > 0) {
   ticks++;
 }
 
-new Jimp({ data: canvasToImageData(c), width: c.width, height: c.height }, (err, image) => {
+new Jimp(c.width, c.height, (err, image) => {
   console.error(err);
+  
+  image.scan(0, 0, image.bitmap.width, image.bitmap.height, jimpScan(c));
   image.write('images/projectile.png');
 });

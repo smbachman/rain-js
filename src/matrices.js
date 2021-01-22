@@ -1,10 +1,6 @@
-const epsilon = 0.00001
+const {floatEqual} = require('./comparison.js');
 
-function floatEqual(a, b) {
-  return Math.abs(a - b) < epsilon;
-}
-
-export function equal(a, b) {
+function equal(a, b) {
   for (let x = 0; x < a.length; x++) {
     for (let y = 0; y < a[0].length; y++) {
       if (!floatEqual(a[x][y], b[x][y])) {
@@ -16,11 +12,11 @@ export function equal(a, b) {
   return true;
 }
 
-export function matrix() {
+function matrix() {
   return [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
 }
 
-export function multiply(a, b) {
+function multiply(a, b) {
   let m = matrix();
   
   for (let x = 0; x < a.length; x++) {
@@ -34,3 +30,5 @@ export function multiply(a, b) {
   
   return m;
 }
+
+module.exports = { matrix, equal, multiply };
