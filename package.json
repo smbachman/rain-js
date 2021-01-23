@@ -2,7 +2,7 @@
   "name": "Rain",
   "version": "1.0.0",
   "scripts": {
-    "test": "node tests/canvas.test.js",
+    "test": "node tests/matrices.test.js",
     "projectile": "node run-projectile.js"
   },
   "dependencies": {
