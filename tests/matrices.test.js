@@ -79,27 +79,29 @@ test('matrices', function (t) {
     t.notOk(equal(a,b));
   });
   
-  t.test('Multiplying two matrices', function(t) {​
+  t.test('Multiplying two matrices', function(t) {
+  
     let a = matrix(4, 4, 
       1, 2, 3, 4,
       5, 6, 7, 8,
-      9, 8, 7, 6,​  
+      9, 8, 7, 6,
       5, 4, 3, 2);
       
     let b = matrix(4, 4,
       -2, 1, 2, 3,
-   ​   3, 2, 1, -1,
-   ​   4, 3, 6, 5, ​  
+      3, 2, 1, -1,
+      4, 3, 6, 5,
       1, 2, 7, 8);
       
     let result = matrix(4, 4,
-      20, 22, 50, 48, ​  
-      44, 54, 114, 108, ​  
-      40, 58, 110, 102, ​  
+      20, 22, 50, 48,
+      44, 54, 114, 108,
+      40, 58, 110, 102,
       16, 26, 46, 42
-    );
+  );
       
     t.ok(equal(multiply(a, b), result));
+    
   });
   
 });
