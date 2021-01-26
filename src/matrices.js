@@ -107,8 +107,8 @@ function determinant(m) {
   if (m.length === 2) {
     d = m[0][0] * m[1][1] - m[0][1] * m[1][0];
   } else {
-    for (let column = 0; column < m.length - 1; column++) {
-      d = d + m[0][column] * cofactor(m, 0, column);
+    for (let column = 0; column < m.length; column++) {
+      d += m[0][column] * cofactor(m, 0, column);
     } 
   }
   

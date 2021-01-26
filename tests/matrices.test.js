@@ -207,4 +207,30 @@ test('matrices', function (t) {
     t.equal(cofactor(a, 0, 0), -12);
     t.equal(cofactor(a, 1, 0), -25);
   });
+
+  t.test('calculating the determinant of a 3x3 matrix', t => {
+    let a = matrix(3, 3,
+      1, 2, 6,
+      -5, 8, -4,
+      2, 6, 4);
+
+    t.equal(cofactor(a, 0, 0), 56);
+    t.equal(cofactor(a, 0, 1), 12);
+    t.equal(cofactor(a, 0, 2), -46);
+    t.equal(determinant(a), -196);
+  });
+
+  t.test('calculating the determinant of a 4x4 matrix', t => {
+    let a = matrix(4, 4,
+      -2, -8, 3, 5,
+      -3, 1, 7, 3,
+      1, 2, -9, 6,
+      -6, 7, 7, -9);
+
+    t.equal(cofactor(a, 0, 0), 690);
+    t.equal(cofactor(a, 0, 1), 447);
+    t.equal(cofactor(a, 0, 2), 210);
+    t.equal(cofactor(a, 0, 3), 51);
+    t.equal(determinant(a), -4071);
+  });
 });
