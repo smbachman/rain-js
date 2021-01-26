@@ -1,4 +1,5 @@
 const {floatEqual} = require('./comparison.js');
+const {tuple} = require('./tuples.js');
 
 function matrix(width, height, ...args) {
   let m = new Array(width);
@@ -42,4 +43,76 @@ function multiply(a, b) {
   return m;
 }
 
-module.exports = { matrix, equal, multiply };
+function multiplyTuple(m, t) {
+  let tm = matrix(4, 4,
+    t.x, 0, 0, 0, 
+    t.y, 0, 0, 0,
+    t.z, 0, 0, 0,
+    t.w, 0, 0, 0);
+  
+  let result = multiply(m, tm);
+  
+  return tuple(result[0][0], result[1][0], result[2][0], result[3][0]);
+}
+
+let identity = matrix(4, 4,
+  1, 0, 0, 0,
+  0, 1, 0, 0,
+  0, 0, 1, 0,
+  0, 0, 0, 1);
+  
+function transpose(m) {
+  let result = matrix(4, 4);
+  
+  for (let x = 0; x < m.length; x++) {
+    for (let y = 0; y < m[0].length; y++) {
+      result[x][y] = m[y][x];
+    }
+  }
+  
+  return result;
+}
+
+function submatrix(m, row, column) {
+  let result = matrix(m.length - 1, m[0].length - 1);
+  
+  for (let x = 0; x < m.length; x++) {
+    let rx, ry;
+    if (x !== row) {
+      rx = x > row ? x - 1 : x;
+      for (let y = 0; y < m[0].length; y++) {
+        if (y !== column) {
+          ry = y > column ? y - 1 : y;
+          result[rx][ry] = m[x][y];
+        }
+      }
+    }
+  }
+  
+  return result;
+}
+
+function minor(m, row, column) {
+  return determinant(submatrix(m, row, column));
+}
+
+function cofactor(m, row, column) {
+  let mr = minor(m, row, column);
+  return (row + column % 2 === 0) ? mr : -mr;
+}
+
+function determinant(m) {
+  let d = 0;
+  
+  if (m.length === 2) {
+    d = m[0][0] * m[1][1] - m[0][1] * m[1][0];
+  } else {
+    for (let column = 0; column < m.length - 1; column++) {
+      d = d + m[0][column] * cofactor(m, 0, column);
+    } 
+  }
+  
+  return d;
+}
+
+module.exports = { matrix, equal, multiply, multiplyTuple, identity, transpose, determinant, submatrix, minor, cofactor };

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "node test.js",
-    "projectile": "node run-projectile.js"
+    "projectile": "node run-projectile.js",
+    "check": "node src/matrices.js"
   },
   "dependencies": {
     "jimp": "latest",
