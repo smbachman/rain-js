@@ -1,14 +1,14 @@
 const {floatEqual} = require('./comparison.js');
 const {tuple} = require('./tuples.js');
 
-function matrix(width, height, ...args) {
-  let m = new Array(height);
+function matrix(size, ...args) {
+  let m = new Array(size);
 
   let i = 0;
 
-  for (let row = 0; row < height; row++) {
-    m[row] = new Array(width);
-    for (let column = 0; column < width; column++) {
+  for (let row = 0; row < size; row++) {
+    m[row] = new Array(size);
+    for (let column = 0; column < size; column++) {
       m[row][column] = args[i++] || 0;
     }
   }
@@ -17,9 +17,9 @@ function matrix(width, height, ...args) {
 }
 
 function equal(a, b) {
-  for (let x = 0; x < a.length; x++) {
-    for (let y = 0; y < a[0].length; y++) {
-      if (!floatEqual(a[x][y], b[x][y])) {
+  for (let row = 0; row < a.length; row++) {
+    for (let column = 0; column < a[0].length; column++) {
+      if (!floatEqual(a[row][column], b[row][column])) {
         return false;
       }
     }
@@ -29,14 +29,15 @@ function equal(a, b) {
 }
 
 function multiply(a, b) {
-  let m = matrix(4, 4);
+  let m = matrix(4);
   
-  for (let x = 0; x < a.length; x++) {
-    for (let y = 0; y < a[0].length; y++) {
-      m[x][y] = a[x][0] * b[0][y] 
-        + a[x][1] * b[1][y] 
-        + a[x][2] * b[2][y] 
-        + a[x][3] * b[3][y];
+  for (let row = 0; row < a.length; row++) {
+    for (let column = 0; column < a[0].length; column++) {
+      m[row][column] = 
+          a[row][0] * b[0][column]
+        + a[row][1] * b[1][column]
+        + a[row][2] * b[2][column]
+        + a[row][3] * b[3][column];
     }
   }
   
@@ -44,7 +45,7 @@ function multiply(a, b) {
 }
 
 function multiplyTuple(m, t) {
-  let tm = matrix(4, 4,
+  let tm = matrix(4,
     t.x, 0, 0, 0, 
     t.y, 0, 0, 0,
     t.z, 0, 0, 0,
@@ -55,35 +56,35 @@ function multiplyTuple(m, t) {
   return tuple(result[0][0], result[1][0], result[2][0], result[3][0]);
 }
 
-let identity = matrix(4, 4,
+let identity = matrix(4,
   1, 0, 0, 0,
   0, 1, 0, 0,
   0, 0, 1, 0,
   0, 0, 0, 1);
   
 function transpose(m) {
-  let result = matrix(4, 4);
+  let result = matrix(4);
   
-  for (let x = 0; x < m.length; x++) {
-    for (let y = 0; y < m[0].length; y++) {
-      result[x][y] = m[y][x];
+  for (let row = 0; row < m.length; row++) {
+    for (let column = 0; column < m[0].length; column++) {
+      result[row][column] = m[column][row];
     }
   }
   
   return result;
 }
 
-function submatrix(m, row, column) {
-  let result = matrix(m.length - 1, m[0].length - 1);
+function submatrix(m, rowToExclude, columnToExclude) {
+  let result = matrix(m.length - 1);
   
-  for (let x = 0; x < m.length; x++) {
-    let rx, ry;
-    if (x !== row) {
-      rx = x > row ? x - 1 : x;
-      for (let y = 0; y < m[0].length; y++) {
-        if (y !== column) {
-          ry = y > column ? y - 1 : y;
-          result[rx][ry] = m[x][y];
+  for (let row = 0; row < m.length; row++) {
+    let resultRow, resultColumn;
+    if (row !== rowToExclude) {
+      resultRow = row > rowToExclude ? row - 1 : row;
+      for (let column = 0; column < m[0].length; column++) {
+        if (column !== columnToExclude) {
+          resultColumn = column > columnToExclude ? column - 1 : column;
+          result[resultRow][resultColumn] = m[row][column];
         }
       }
     }
@@ -122,7 +123,7 @@ function isInvertible(m) {
 function inverse(m) {
   if (!isInvertible(m)) throw new Error('cannot invert');
   
-  let m2 = matrix(m.length, m.length);
+  let m2 = matrix(m.length);
   let d = determinant(m);
   
   for (let row = 0; row < m.length; row++) {
