@@ -1,6 +1,6 @@
 const {test} = require('zora');
 const {matrix, equal, multiply, multiplyTuple, identity, transpose, 
-  determinant, submatrix, minor, cofactor} = require('../src/matrices.js');
+  determinant, submatrix, minor, cofactor, isInvertible, inverse} = require('../src/matrices.js');
 const {tuple} = require('../src/tuples.js');
 
 test('matrices', function (t) {
@@ -204,7 +204,9 @@ test('matrices', function (t) {
       2, -1, -7,
       6, -1, 5);
       
+    t.equal(minor(a, 0, 0), -12);
     t.equal(cofactor(a, 0, 0), -12);
+    t.equal(minor(a, 1, 0), 25);
     t.equal(cofactor(a, 1, 0), -25);
   });
 
@@ -233,4 +235,68 @@ test('matrices', function (t) {
     t.equal(cofactor(a, 0, 3), 51);
     t.equal(determinant(a), -4071);
   });
+  
+  t.test('testing an invertible matrix for invertibility', t => {
+    let a = matrix(4, 4,
+      6, 4, 4, 4,
+      5, 5, 7, 6,
+      4, -9, 3, -7,
+      9, 1, 7, -6);
+      
+    t.equal(determinant(a), -2120);
+    t.ok(isInvertible(a));
+  });
+  
+  t.test('testing a noninvertible matrix for invertibility', t => {
+    let a = matrix(4, 4,
+      -4, 2, -2, -3,
+      9, 6, 2, 6,
+      0, -5, 1, -5,
+      0, 0, 0, 0 
+      );
+      
+    t.equal(determinant(a), 0);
+    t.notOk(isInvertible(a));
+  });
+  
+  t.test('testing the inverse of a matrix', t => {
+    let a = matrix(4, 4,
+      -5, 2, 6, -8,
+      1, -5, 1, 8,
+      7, 7, -6, -7,
+      1, -3, 7, 4);
+      
+    let b = inverse(a);
+    
+    t.equal(determinant(a), 532);
+    t.equal(cofactor(a, 2, 3), -160);
+    t.equal(b[3][2], -160/532);
+    t.equal(cofactor(a, 3, 2), 105);
+    t.equal(b[2][3], 105/532);
+    
+    console.log(b);
+    
+    /*t.ok(equal(b, matrix(4, 4,
+      0.21805, 0.45113, 0.24060, -0.04511,
+      -0.80827, -1.45677, -0.44361, 0.52068,
+      -0.07895, -0.22368, -0.05263, 0.19737, 
+      -0.52256, -0.81391, -0.30075, 0.30639)));*/
+  });
+  
+  t.test('another matrix', t => {
+    let m = matrix(4, 4,
+      8, -5, 9, 2,
+      7, 5, 6, 1,
+      -6, 0, 9, 6,
+      -3, 0, -9, -4);
+      
+    let b = inverse(m);
+    
+    // console.log(b);
+    /*t.ok(equal(inverse(m), matrix(4, 4,
+      -0.15385, -0.15385, -0.28205, -0.53846,
+      -0.07692, 0.12308, 0.02564, 0.03077,
+      0.35897, 0.35897, 0.43590, 0.92308,
+      -0.69231, -0.69231, -0.76923, -1.92308)))*/
+  })
 });

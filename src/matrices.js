@@ -115,4 +115,25 @@ function determinant(m) {
   return d;
 }
 
-module.exports = { matrix, equal, multiply, multiplyTuple, identity, transpose, determinant, submatrix, minor, cofactor };
+function isInvertible(m) {
+  return determinant(m) !== 0;
+}
+
+function inverse(m) {
+  if (!isInvertible(m)) throw new Error('cannot invert');
+  
+  let m2 = matrix(m.length, m.length);
+  let d = determinant(m);
+  
+  for (let row = 0; row < m.length; row++) {
+    for (let column = 0; column < m.length; column++) {
+      let c = cofactor(m, row, column);
+      
+      m2[column][row] = c / d;
+    }
+  }
+  
+  return m2;
+}
+
+module.exports = { matrix, equal, multiply, multiplyTuple, identity, transpose, determinant, submatrix, minor, cofactor, isInvertible, inverse };
