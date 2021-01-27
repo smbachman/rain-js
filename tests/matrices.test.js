@@ -194,8 +194,9 @@ test('matrices', function (t) {
       3, 5, 0,
       2, -1, 7,
       6, 1, 5);
-      
-    t.equal(minor(a, 1, 0), determinant(submatrix(a, 1, 0)));
+    
+    t.equal(determinant(submatrix(a, 1, 0)), 25);
+    t.equal(minor(a, 1, 0), 25);
   });
   
   t.test('calculating a cofactor of a 3x3 matrix', t => {
@@ -274,13 +275,11 @@ test('matrices', function (t) {
     t.equal(cofactor(a, 3, 2), 105);
     t.equal(b[2][3], 105/532);
     
-    console.log(b);
-    
-    /*t.ok(equal(b, matrix(4, 4,
+    t.ok(equal(b, matrix(4, 4,
       0.21805, 0.45113, 0.24060, -0.04511,
       -0.80827, -1.45677, -0.44361, 0.52068,
       -0.07895, -0.22368, -0.05263, 0.19737, 
-      -0.52256, -0.81391, -0.30075, 0.30639)));*/
+      -0.52256, -0.81391, -0.30075, 0.30639)));
   });
   
   t.test('another matrix', t => {
@@ -289,14 +288,11 @@ test('matrices', function (t) {
       7, 5, 6, 1,
       -6, 0, 9, 6,
       -3, 0, -9, -4);
-      
-    let b = inverse(m);
     
-    // console.log(b);
-    /*t.ok(equal(inverse(m), matrix(4, 4,
+    t.ok(equal(inverse(m), matrix(4, 4,
       -0.15385, -0.15385, -0.28205, -0.53846,
       -0.07692, 0.12308, 0.02564, 0.03077,
       0.35897, 0.35897, 0.43590, 0.92308,
-      -0.69231, -0.69231, -0.76923, -1.92308)))*/
+      -0.69231, -0.69231, -0.76923, -1.92308)));
   })
 });

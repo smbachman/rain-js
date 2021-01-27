@@ -2,14 +2,14 @@ const {floatEqual} = require('./comparison.js');
 const {tuple} = require('./tuples.js');
 
 function matrix(width, height, ...args) {
-  let m = new Array(width);
+  let m = new Array(height);
 
   let i = 0;
 
-  for (let x = 0; x < width; x++) {
-    m[x] = new Array(height);
-    for (let y = 0; y < height; y++) {
-      m[x][y] = args[i++] || 0;
+  for (let row = 0; row < height; row++) {
+    m[row] = new Array(width);
+    for (let column = 0; column < width; column++) {
+      m[row][column] = args[i++] || 0;
     }
   }
 
@@ -97,8 +97,8 @@ function minor(m, row, column) {
 }
 
 function cofactor(m, row, column) {
-  let mr = minor(m, row, column);
-  return (row + column % 2 === 0) ? mr : -mr;
+  let mr = minor(m, row, column);  
+  return ((row + column) % 2 === 0) ? mr : -mr;
 }
 
 function determinant(m) {
