@@ -16,6 +16,12 @@ test('transformations', t => {
     let inv = Matrices.inverse(transform);
     let p = Tuples.point(-3, 4, 5);
     t.equal(Matrices.multiplyTuple(inv, p), Tuples.point(-8, 7, 3));
-  })
+  });
 
+  t.test('Translation does not affect vectors', t => {
+    let transform = translation (5, -3, 2);
+    let v = Tuples.vector(-3, 4, 5);
+    t.equal(Matrices.multiplyTuple(transform, v), v);
+  });
+  
 });
