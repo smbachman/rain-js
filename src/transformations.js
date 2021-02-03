@@ -9,4 +9,50 @@ function translation(x, y, z) {
   );
 }
 
-module.exports = { translation };
+function scaling(x, y, z) {
+  return Matrices.matrix(4,
+    x, 0, 0, 0,
+    0, y, 0, 0,
+    0, 0, z, 0,
+    0, 0, 0, 1
+  );
+}
+
+function rotationX(r) {
+  return Matrices.matrix(4,
+    1, 0, 0, 0,
+    0, Math.cos(r), -Math.sin(r), 0,
+    0, Math.sin(r), Math.cos(r), 0,
+    0, 0, 0, 1
+  );
+}
+
+function rotationY(r) {
+  return Matrices.matrix(4,
+    Math.cos(r), 0, Math.sin(r), 0,
+    0, 1, 0, 0,
+    -Math.sin(r), 0, Math.cos(r), 0,
+    0, 0, 0, 1
+  );
+}
+
+function rotationZ(r) {
+  return Matrices.matrix(4,
+    Math.cos(r), -Math.sin(r), 0, 0,
+    Math.sin(r), Math.cos(r), 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+  );
+}
+
+function shearing(xy, xz, yx, yz, zx, zy) {
+  return Matrices.matrix(4,
+    1, xy, xz, 0,
+    yx, 1, yz, 0,
+    zx, zy, 1, 0,
+    0, 0, 0, 1
+  );
+}
+
+module.exports = { translation, scaling, shearing,
+  rotationX, rotationY, rotationZ };

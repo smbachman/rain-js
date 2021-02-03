@@ -4,7 +4,7 @@
   "scripts": {
     "test": "node test.js",
     "projectile": "node run-projectile.js",
-    "check": "node src/matrices.js"
+    "check": "node tests/transformations.test.js"
   },
   "dependencies": {
     "jimp": "latest",
