@@ -1,7 +1,7 @@
-const {point, vector, normalize, multiply} = require("./src/tuples.js");
-const {projectile, environment, tick} = require("./src/projectile.js");
-const {color} = require("./src/colors.js");
-const {canvas, writePixel, pixelAt, jimpScan} = require("./src/canvas.js");
+const {point, vector, normalize, multiply} = require("../src/tuples.js");
+const {projectile, environment, tick} = require("./projectile.js");
+const {color} = require("../src/colors.js");
+const {canvas, writePixel, pixelAt, jimpScan} = require("../src/canvas.js");
 const Jimp = require('jimp');
 
 let p = projectile(point(0,1,0), multiply(normalize(vector(1,1.8,0)), 11.25));

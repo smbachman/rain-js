@@ -8,7 +8,7 @@ Scenario: A ray intersects a sphere at two points
     And xs[0] = 4.0
     And xs[1] = 6.0
 
-Scenario: A ray intersects a sphere at a tangent
+Scenario&: A ray intersects a sphere at a tangent
   Given r ← ray(point(0, 1, -5), vector(0, 0, 1))
     And s ← sphere()
   When xs ← intersect(s, r)

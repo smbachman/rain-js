@@ -1,4 +1,4 @@
-const {add} = require("./tuples.js");
+const {add} = require("../src/tuples.js");
 
 function projectile(position, velocity) {
   return { position, velocity };

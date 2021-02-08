@@ -125,4 +125,30 @@ test('transformations', t => {
     t.equal(Matrices.multiplyTuple(transform, p), Tuples.point(2, 3, 7));
   });
   
+  t.test('individual transformations are applied in sequence', t => {
+    let p = Tuples.point(1, 0, 1);
+    let a = rotationX(Math.PI / 2);
+    let b = scaling(5, 5, 5);
+    let c = translation(10, 5, 7);
+    
+    let p2 = Matrices.multiplyTuple(a, p);
+    t.ok(Matrices.equal([p2], [Tuples.point(1, -1, 0)]));
+    
+    let p3 = Matrices.multiplyTuple(b, p2);
+    t.ok(Matrices.equal([p3], [Tuples.point(5, -5, 0)]));
+    
+    let p4 = Matrices.multiplyTuple(c, p3);
+    t.ok(Matrices.equal([p4], [Tuples.point(15, 0, 7)]));
+  });
+  
+  t.test('Chained transformations must be applied in reverse order', t =>{
+    let p = Tuples.point(1, 0, 1);
+    let a = rotationX(Math.PI / 2);
+    let b = scaling(5, 5, 5);
+    let c = translation(10, 5, 7);
+    
+    let transform = Matrices.multiply(c, Matrices.multiply(b, a));
+    t.ok(Matrices.equal([Matrices.multiplyTuple(transform, p)], [Tuples.point(15, 0, 7)]));
+  });
+  
 });
