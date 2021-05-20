@@ -1,132 +1,145 @@
-const {test} = require('zora');
-const {tuple, isPoint, isVector, point, vector, 
-  add, subtract, negate, multiply, divide,
-  magnitude, normalize, dot, cross} = require('../src/tuples.js');
-
-test('tuples', function (t) {
+describe('tuples', function () {
   
-  t.test('A tuple with w=1.0 is a point', function (t) {
+  const { tuple, point, vector, isPoint, isVector,
+    equalTuples, addTuples, subtractTuples, negateTuple, multiplyTuple, divideTuple,
+    magnitude, normalize, dot, cross, reflect } = Rain;
+  
+  it('A tuple with w=1.0 is a point', function () {
     const p = tuple(1,2,3,1);
-    t.ok(isPoint(p));
-    t.notOk(isVector(p));
+    chai.expect(isPoint(p)).to.be.true;
+    chai.expect(isVector(p)).to.be.false;
   });
   
-  t.test('A tuple with w=0 is a vector', function (t) {
+  it('A tuple with w=0 is a vector', function () {
     const v = tuple(1,2,3,0);
-    t.notOk(isPoint(v));
-    t.ok(isVector(v));
+    chai.expect(isPoint(v)).to.be.false;
+    chai.expect(isVector(v)).to.be.true;
   });
   
-  t.test('point() creates tuples with w=1', function (t) {
-    t.equal(point(4, -4, 3), tuple(4, -4, 3, 1));
+  it('point() creates tuples with w=1', function () {
+    chai.expect(point(4, -4, 3)).to.deep.equal(tuple(4, -4, 3, 1));
   });
   
-  t.test('vector() creates tuples with w=0', function () {
-    t.equal(vector(4, -4, 3), tuple(4, -4, 3, 0));
+  it('vector() creates tuples with w=0', function () {
+    chai.expect(vector(4, -4, 3)).to.deep.equal(tuple(4, -4, 3, 0));
   });
   
-  t.test('Adding two tuples', function () {
+  it('Adding two tuples', function () {
     const a = tuple(3, -2, 5, 1);
     const b = tuple(-2, 3, 1, 0);
-    t.equal(add(a, b), tuple(1, 1, 6, 1));
+    chai.expect(addTuples(a, b)).to.deep.equal(tuple(1, 1, 6, 1));
   });
   
-  t.test('Subtracting two points', function () {
+  it('Subtracting two points', function () {
     const a = point(3, 2, 1);
     const b = point(5, 6, 7);
-    t.equal(subtract(a, b), vector(-2, -4, -6));
+    chai.expect(subtractTuples(a, b)).to.deep.equal(vector(-2, -4, -6));
   });
   
-  t.test('Subtracting a point from a vector', function () {
+  it('Subtracting a point from a vector', function () {
     const p = point(3, 2, 1);
     const v = vector(5, 6, 7);
-    t.equal(subtract(p, v), point(-2, -4, -6));
+    chai.expect(subtractTuples(p, v)).to.deep.equal(point(-2, -4, -6));
   });
   
-  t.test('Subtracting a vector from a vector', function () {
+  it('Subtracting a vector from a vector', function () {
     const p = vector(3, 2, 1);
     const v = vector(5, 6, 7);
-    t.equal(subtract(p, v), vector(-2, -4, -6));
+    chai.expect(subtractTuples(p, v)).to.deep.equal(vector(-2, -4, -6));
   });
   
-  t.test('Subtracting a vector from the zero vector', function () {
+  it('Subtracting a vector from the zero vector', function () {
     const zero = vector(0, 0, 0);
     const v = vector(1, -2, 3);
-    t.equal(subtract(zero, v), vector(-1, 2, -3));
+    chai.expect(subtractTuples(zero, v)).to.deep.equal(vector(-1, 2, -3));
   });
   
-  t.test('Negating a tuple', function () {
+  it('Negating a tuple', function () {
     const p = tuple(1, -2, 3, -4);
-    t.equal(negate(p), tuple(-1, 2, -3, 4));
+    chai.expect(negateTuple(p)).to.deep.equal(tuple(-1, 2, -3, 4));
   });
   
-  t.test('Multiplying a tuple by a scalar', function () {
+  it('Multiplying a tuple by a scalar', function () {
     const p = tuple(1, -2, 3, -4);
-    t.equal(multiply(p, 3.5), tuple(3.5, -7, 10.5, -14));
+    chai.expect(multiplyTuple(p, 3.5)).to.deep.equal(tuple(3.5, -7, 10.5, -14));
   });
   
-  t.test('Multiplying a tuple by a fraction', function () {
+  it('Multiplying a tuple by a fraction', function () {
     const p = tuple(1, -2, 3, -4);
-    t.equal(multiply(p, 0.5), tuple(0.5, -1, 1.5, -2));
+    chai.expect(multiplyTuple(p, 0.5)).to.deep.equal(tuple(0.5, -1, 1.5, -2));
   });
   
-  t.test('Dividing a tuple by a scalar', function () {
+  it('Dividing a tuple by a scalar', function () {
     const p = tuple(1, -2, 3, -4);
-    t.equal(divide(p, 2), tuple(0.5, -1, 1.5, -2));
+    chai.expect(divideTuple(p, 2)).to.deep.equal(tuple(0.5, -1, 1.5, -2));
   });
   
-  t.test('Computing the magnitude of vector(1, 0, 0)', function () {
+  it('Computing the magnitude of vector(1, 0, 0)', function () {
     const v = vector(1, 0, 0);
-    t.equal(magnitude(v), 1);
+    chai.expect(magnitude(v)).to.equal(1);
   });
   
-  t.test('Computing the magnitude of vector(0, 1, 0)', function () {
+  it('Computing the magnitude of vector(0, 1, 0)', function () {
     const v = vector(0, 1, 0);
-    t.equal(magnitude(v), 1);
+    chai.expect(magnitude(v)).to.equal(1);
   });
   
-  t.test('Computing the magnitude of vector(0, 0, 1)', function () {
+  it('Computing the magnitude of vector(0, 0, 1)', function () {
     const v = vector(0, 0, 1);
-    t.equal(magnitude(v), 1);
+    chai.expect(magnitude(v)).to.equal(1);
   });
   
-  t.test('Computing the magnitude of vector(1, 2, 3)', function () {
+  it('Computing the magnitude of vector(1, 2, 3)', function () {
     const v = vector(1, 2, 3);
-    t.equal(magnitude(v), Math.sqrt(14));
+    chai.expect(magnitude(v)).to.equal(Math.sqrt(14));
   });
   
-  t.test('Computing the magnitude of vector(-1, -2, -3)', function () {
+  it('Computing the magnitude of vector(-1, -2, -3)', function () {
     const v = vector(-1, -2, -3);
-    t.equal(magnitude(v), Math.sqrt(14));
+    chai.expect(magnitude(v)).to.equal(Math.sqrt(14));
   });
   
-  t.test('Normalizing vector(4,0,0) givea vector(1,0,0)', function () {
+  it('Normalizing vector(4,0,0) givea vector(1,0,0)', function () {
     const v = vector(4, 0, 0);
-    t.equal(normalize(v), vector(1, 0, 0));
+    chai.expect(normalize(v)).to.deep.equal(vector(1, 0, 0));
   });
   
-  t.test('Normalizing vector(1, 2, 3)', function () {
+  it('Normalizing vector(1, 2, 3)', function () {
     const v = vector(1, 2, 3);
     const r = Math.sqrt(14);
-    t.equal(normalize(v), vector(1/r, 2/r, 3/r));
+    chai.expect(normalize(v)).to.deep.equal(vector(1/r, 2/r, 3/r));
   });
   
-  t.test('The magnitude of a normalized vector', function () {
+  it('The magnitude of a normalized vector', function () {
     const v = vector(1, 2, 3);
-    t.equal(magnitude(normalize(v)), 1);
+    chai.expect(magnitude(normalize(v))).to.equal(1);
   });
   
-  t.test('The dot product of two tuples', function () {
+  it('The dot product of two tuples', function () {
     const a = vector(1, 2, 3);
     const b = vector(2, 3, 4);
-    t.equal(dot(a, b), 20);
+    chai.expect(dot(a, b)).to.equal(20);
   });
   
-  t.test('The cross product of two vectors', function () {
+  it('The cross product of two vectors', function () {
     const a = vector(1, 2, 3);
     const b = vector(2, 3, 4);
-    t.equal(cross(a, b), vector(-1, 2, -1));
-    t.equal(cross(b, a), vector(1, -2, 1));
+    chai.expect(cross(a, b)).to.deep.equal(vector(-1, 2, -1));
+    chai.expect(cross(b, a)).to.deep.equal(vector(1, -2, 1));
+  });
+  
+  it('Reflecting a vector approaching at 45 degrees', () => {
+    const v = vector(1, -1, 0);
+    const n = vector(0, 1, 0);
+    const r = reflect(v, n);
+    chai.expect(r).to.deep.equal(vector(1, 1, 0));
   });
 
+  it('Reflecting a vector off a slanted surface', () => {
+    const v = vector(0, -1, 0);
+    const n = vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
+    const r = reflect(v, n);
+    chai.expect(equalTuples(r, vector(1, 0, 0))).to.be.true;
+  });
+  
 });

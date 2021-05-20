@@ -1,9 +1,9 @@
-const { point } = require('../src/tuples.js');
-const { multiplyTuple } = require('../src/matrices.js');
-const {color} = require("../src/colors.js");
-const { rotationZ } = require('../src/transformations.js');
-const { canvas, writePixel, jimpScan } = require("../src/canvas.js");
-const Jimp = require('jimp');
+import { point } from '../src/tuples.js';
+import { multiplyTuple } from '../src/matrices.js';
+import {color} from "../src/colors.js";
+import { rotationZ } from '../src/transformations.js';
+import { canvas, writePixel, canvasToImageData } from "../src/canvas.js";
+//import * as Jimp from 'jimp';
 
 let p = point(0, 150, 0);
 
@@ -22,10 +22,14 @@ while (points.length < 13) {
 
 console.log(points);
 
-new Jimp(c.width, c.height, (err, image) => {
-  console.error(err);
+// new Jimp(c.width, c.height, (err, image) => {
+//   console.error(err);
   
-  image.scan(0, 0, image.bitmap.width, image.bitmap.height, jimpScan(c));
-  image.write('images/clock.png');
-});
+//   image.scan(0, 0, image.bitmap.width, image.bitmap.height, jimpScan(c));
+//   image.write('images/clock.png');
+// });
 
+const canvasElement = document.getElementById('image');
+const context = canvasElement.getContext('2d');
+
+context.putImageData(canvasToImageData(c), 0, 0);

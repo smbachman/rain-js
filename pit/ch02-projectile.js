@@ -1,8 +1,8 @@
-const {point, vector, normalize, multiply} = require("../src/tuples.js");
-const {projectile, environment, tick} = require("./projectile.js");
-const {color} = require("../src/colors.js");
-const {canvas, writePixel, pixelAt, jimpScan} = require("../src/canvas.js");
-const Jimp = require('jimp');
+import {point, vector, normalize, multiply} from "../src/tuples.js";
+import {projectile, environment, tick} from "./projectile.js";
+import {color} from "../src/colors.js";
+import {canvas, writePixel, pixelAt, jimpScan} from "../src/canvas.js";
+import * as Jimp from 'jimp';
 
 let p = projectile(point(0,1,0), multiply(normalize(vector(1,1.8,0)), 11.25));
 let e = environment(vector(0,-0.1,0), vector(-0.01,0,0));

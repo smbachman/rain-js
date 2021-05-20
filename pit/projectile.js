@@ -1,4 +1,4 @@
-const {add} = require("../src/tuples.js");
+import {add} from "../src/tuples.js";
 
 function projectile(position, velocity) {
   return { position, velocity };
@@ -14,4 +14,4 @@ function tick(env, proj) {
   return projectile(position, velocity);
 }
 
-module.exports = { projectile, environment, tick }
+export { projectile, environment, tick };

@@ -1,43 +1,38 @@
-const {test} = require('zora');
-const {color, add, subtract, multiply, hadamardProduct} = require("../src/colors.js");
-const {floatEqual} = require("../src/comparison.js");
-
-test('colors', function (t) {
+describe('colors', function () {
   
-  t.test('colors are (red, green, blue) tuples', function () {
+  const { color, addColors, subtractColors, multiplyColor, hadamardProduct } = Rain;
+  const equalColors = Rain.equalTuples;
+  
+  it('colors are (red, green, blue) tuples', function () {
     let c = color(-0.5, 0.4, 1.7);
-    t.equal(c.red, -0.5);
-    t.equal(c.green, 0.4);
-    t.equal(c.blue, 1.7);
+    chai.expect(c.red, -0.5);
+    chai.expect(c.green, 0.4);
+    chai.expect(c.blue, 1.7);
   });
   
-  t.test('Adding colors', function () {
+  it('Adding colors', function () {
     const a = color(0.9, 0.6, 0.75);
     const b = color(0.7, 0.1, 0.25);    
-    t.equal(add(a, b), color(1.6, 0.7, 1.0));    
+    chai.expect(addColors(a, b)).to.deep.equal(color(1.6, 0.7, 1.0));
   });
   
-  t.test('Subtracting colors', function () {
+  it('Subtracting colors', function () {
     const a = color(0.9, 0.6, 0.75);
     const b = color(0.7, 0.1, 0.25);
-    const r = subtract(a, b);
-    t.ok(floatEqual(r.red, 0.2));
-    t.equal(r.green, 0.5);
-    t.equal(r.blue, 0.5);
+    const r = subtractColors(a, b);
+    chai.expect(equalColors(r, color(0.2, 0.5, 0.5))).to.be.true;
   });
   
-  t.test('Multiplying a color by a scalar', function () {
+  it('Multiplying a color by a scalar', function () {
     const c = color(0.2, 0.3, 0.4);
-    t.equal(multiply(c, 2), color(0.4, 0.6, 0.8));
+    chai.expect(multiplyColor(c, 2)).to.deep.equal(color(0.4, 0.6, 0.8));
   });
   
-  t.test('Multiplying colors', function () {
+  it('Multiplying colors', function () {
     const a = color(1, 0.2, 0.4);
     const b = color(0.9, 1, 0.1);
     const r = hadamardProduct(a, b);
-    t.equal(r.red, 0.9);
-    t.equal(r.green, 0.2);
-    t.ok(floatEqual(r.blue, 0.04));
+    chai.expect(equalColors(r, color(0.9, 0.2, 0.04))).to.be.true;
   });
   
 });
